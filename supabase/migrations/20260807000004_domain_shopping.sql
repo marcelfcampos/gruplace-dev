@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS public.shopping_centers (
 
     metadata JSONB DEFAULT '{}'::jsonb,
 
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN NOT NULL DEFAULT true,
 
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
 
-
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_shopping_center_tenant
 
         FOREIGN KEY (tenant_id)
