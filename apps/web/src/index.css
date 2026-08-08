@@ -1,0 +1,12 @@
+@import "./styles/tokens.css";
+
+:root {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: #ffffff;
+}
+
+* {
+   box-sizing: border-box;
+}
+  
