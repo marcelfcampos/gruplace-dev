@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dock Component</title>
+<style>
+  :root {
+    --background: #ffffff;
+    --foreground: #18181b;
+    --secondary: #f4f4f5;
+    --popover: #18181b;
+    --popover-foreground: #fafafa;
+    --border: #e4e4e7;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .dock-wrapper {
+    width: 100%;
+    max-width: 56rem;
+    height: 16rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0.5rem;
+  }
+
+  .dock {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .dock:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  @keyframes float {
+    0%   { transform: translateY(-2px); }
+    50%  { transform: translateY(2px); }
+    100% { transform: translateY(-2px); }
+  }
+
+  .dock-item {
+    position: relative;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .dock-item:hover {
+    background: var(--secondary);
+    transform: translateY(-2px) scale(1.1);
+  }
+
+  .dock-item:active {
+    transform: scale(0.95);
+  }
+
+  .dock-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--foreground);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .dock-tooltip {
+    position: absolute;
+    top: -2.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    background: var(--popover);
+    color: var(--popover-foreground);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .dock-item:hover .dock-tooltip {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="dock-wrapper">
+  <div class="dock" id="dock"></div>
+</div>
+
+<script>
+  // Cada item: label, onClick e um SVG (ícones no estilo lucide, sem dependências externas)
+  const items = [
+    {
+      label: "Home",
+      icon: `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>`,
+      onClick: () => console.log("Home")
+    },
+    {
+      label: "Buscar",
+      icon: `<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>`,
+      onClick: () => console.log("Buscar")
+    },
+    {
+      label: "Música",
+      icon: `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`,
+      onClick: () => console.log("Música")
+    },
+    {
+      label: "Favoritos",
+      icon: `<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>`,
+      onClick: () => console.log("Favoritos")
+    },
+    {
+      label: "Adicionar",
+      icon: `<path d="M12 5v14M5 12h14"/>`,
+      onClick: () => console.log("Adicionar")
+    },
+    {
+      label: "Perfil",
+      icon: `<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>`,
+      onClick: () => console.log("Perfil")
+    },
+    {
+      label: "Configurações",
+      icon: `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>`,
+      onClick: () => console.log("Configurações")
+    }
+  ];
+
+  const dock = document.getElementById("dock");
+
+  items.forEach((item) => {
+    const button = document.createElement("button");
+    button.className = "dock-item";
+    button.setAttribute("aria-label", item.label);
+    button.innerHTML = `
+      <svg viewBox="0 0 24 24">${item.icon}</svg>
+      <span class="dock-tooltip">${item.label}</span>
+    `;
+    if (item.onClick) button.addEventListener("click", item.onClick);
+    dock.appendChild(button);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gruplace — Feed das suas lojas favoritas</title>
+    <meta
+      name="description"
+      content="Feed inteligente do Gruplace: ofertas, novidades e eventos apenas das lojas que você escolheu."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --surface: #f5f4ef;
+        --card: #ffffff;
+        --ink: #111111;
+        --ink-soft: #4a4a4a;
+        --ink-muted: #8a8880;
+        --line: #e7e5dd;
+        --blue: #0a66ff;
+        --radius: 12px;
+        --shadow: 0 1px 2px rgba(17, 17, 17, 0.04), 0 8px 24px rgba(17, 17, 17, 0.04);
+        --shadow-hover: 0 2px 4px rgba(17, 17, 17, 0.05), 0 14px 32px rgba(17, 17, 17, 0.07);
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--surface);
+        color: var(--ink);
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .shell {
+        max-width: 440px;
+        margin: 0 auto;
+        min-height: 100vh;
+        background: var(--surface);
+        padding-bottom: 92px;
+      }
+
+      /* ---------- HEADER ---------- */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(245, 244, 239, 0.86);
+        backdrop-filter: saturate(180%) blur(18px);
+        -webkit-backdrop-filter: saturate(180%) blur(18px);
+        border-bottom: 1px solid var(--line);
+        padding: 14px 20px 12px;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: var(--ink);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-name {
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: -0.02em;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        position: relative;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          background 0.18s ease;
+      }
+
+      .icon-btn:hover {
+        box-shadow: var(--shadow);
+        transform: translateY(-1px);
+      }
+
+      .icon-btn:active {
+        transform: scale(0.94);
+      }
+
+      .icon-btn:focus-visible,
+      .chip:focus-visible,
+      .action:focus-visible,
+      .cta:focus-visible,
+      .follow:focus-visible,
+      .nav-item:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+
+      .dot {
+        position: absolute;
+        top: 9px;
+        right: 10px;
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--blue);
+        border: 1.5px solid var(--card);
+      }
+
+      .greeting {
+        margin: 14px 0 0;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .greeting-sub {
+        margin: 4px 0 0;
+        font-size: 13.5px;
+        color: var(--ink-muted);
+      }
+
+      /* ---------- CHIPS ---------- */
+      .chips {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 14px 20px 4px;
+        margin: 0;
+        list-style: none;
+        scroll-snap-type: x proximity;
+      }
+
+      .chips::-webkit-scrollbar {
+        display: none;
+      }
+
+      .chip {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition:
+          background 0.18s ease,
+          color 0.18s ease,
+          transform 0.18s ease,
+          border-color 0.18s ease;
+      }
+
+      .chip:hover {
+        transform: translateY(-1px);
+        border-color: #d9d6cc;
+      }
+
+      .chip[aria-selected="true"] {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+
+      /* ---------- FEED ---------- */
+      .feed {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px 8px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition:
+          transform 0.22s ease,
+          box-shadow 0.22s ease;
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      .card.is-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .card.is-in:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 14px 16px;
+      }
+
+      .store-logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        flex: 0 0 auto;
+      }
+
+      .store-meta {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .store-name {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .store-sub {
+        font-size: 12px;
+        color: var(--ink-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .tag {
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 9px;
+        background: var(--surface);
+      }
+
+      .tag.is-blue {
+        color: var(--blue);
+        border-color: rgba(10, 102, 255, 0.24);
+        background: rgba(10, 102, 255, 0.06);
+      }
+
+      .cover {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        background: #eceae3;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .card-body {
+        padding: 14px 16px 4px;
+      }
+
+      .card-title {
+        margin: 0;
+        font-size: 16.5px;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .card-text {
+        margin: 5px 0 0;
+        font-size: 13.5px;
+        color: var(--ink-soft);
+      }
+
+      .cta {
+        margin: 14px 0 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--ink);
+        color: #fff;
+        border: 0;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 10px 18px;
+        cursor: pointer;
+        transition:
+          transform 0.16s ease,
+          opacity 0.16s ease;
+      }
+
+      .cta:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+      }
+
+      .cta:active {
+        transform: scale(0.97);
+      }
+
+      .card-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 12px 10px;
+        margin-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+
+      .action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 12.5px;
+        font-weight: 500;
+        padding: 8px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition:
+          background 0.18s ease,
+          color 0.18s ease,
+          transform 0.18s ease;
+      }
+
+      .action:hover {
+        background: var(--surface);
+        color: var(--ink);
+      }
+
+      .action:active {
+        transform: scale(0.93);
+      }
+
+      .action[aria-pressed="true"] {
+        color: var(--blue);
+      }
+
+      .action.is-open {
+        margin-left: auto;
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .pop {
+        animation: pop 0.32s ease;
+      }
+
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.22);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* ---------- AI CARD ---------- */
+      .ai-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 18px 16px;
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .ai-card.is-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .ai-title {
+        margin: 0;
+        font-size: 15.5px;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .ai-text {
+        margin: 6px 0 14px;
+        font-size: 13px;
+        color: var(--ink-muted);
+      }
+
+      .suggestions {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .suggestion {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: var(--surface);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .suggestion:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+      }
+
+      .follow {
+        margin-left: auto;
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        font: inherit;
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 7px 15px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition:
+          transform 0.16s ease,
+          background 0.16s ease,
+          color 0.16s ease;
+      }
+
+      .follow:hover {
+        transform: translateY(-1px);
+      }
+
+      .follow:active {
+        transform: scale(0.96);
+      }
+
+      .follow[aria-pressed="true"] {
+        background: transparent;
+        color: var(--ink-soft);
+        border-color: var(--line);
+      }
+
+      .feed-end {
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--ink-muted);
+        padding: 18px 20px 4px;
+      }
+
+      /* ---------- BOTTOM NAV ---------- */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        margin: 0 auto;
+        max-width: 440px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: saturate(180%) blur(18px);
+        -webkit-backdrop-filter: saturate(180%) blur(18px);
+        border-top: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+      }
+
+      .nav-item {
+        border: 0;
+        background: transparent;
+        font: inherit;
+        font-size: 10.5px;
+        font-weight: 500;
+        color: var(--ink-muted);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 6px 0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition:
+          color 0.18s ease,
+          transform 0.18s ease;
+      }
+
+      .nav-item:hover {
+        color: var(--ink-soft);
+      }
+
+      .nav-item:active {
+        transform: scale(0.94);
+      }
+
+      .nav-item[aria-current="page"] {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 104px;
+        transform: translate(-50%, 12px);
+        background: var(--ink);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 10px 16px;
+        border-radius: 999px;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.24s ease,
+          transform 0.24s ease;
+        z-index: 60;
+      }
+
+      .toast.is-visible {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+        .card,
+        .ai-card {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="header">
+        <div class="header-top">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true">G</span>
+            <span class="brand-name">Gruplace</span>
+          </div>
+          <div class="header-actions">
+            <button class="icon-btn" type="button" aria-label="Pesquisar no feed">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+            <button class="icon-btn" type="button" aria-label="Notificações, 3 não lidas">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg>
+              <span class="dot" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <h1 class="greeting">Bom dia, Marcel 👋</h1>
+        <p class="greeting-sub">Veja o que está acontecendo nas suas lojas favoritas.</p>
+      </header>
+
+      <nav aria-label="Filtros do feed">
+        <ul class="chips" role="tablist">
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="true">Todos</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Ofertas</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Novidades</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Eventos</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Cupons</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Lançamentos</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Restaurantes</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Moda</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Tecnologia</button></li>
+          <li role="presentation"><button class="chip" role="tab" type="button" aria-selected="false">Beleza</button></li>
+        </ul>
+      </nav>
+
+      <main class="feed" id="feed" aria-label="Feed personalizado"></main>
+
+      <p class="feed-end">Você está em dia com suas lojas favoritas.</p>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <button class="nav-item" type="button" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h14V9.8"/></svg>
+          Home
+        </button>
+        <button class="nav-item" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 4.5L8.5 15l2-4.5z"/></svg>
+          Explorar
+        </button>
+        <button class="nav-item" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.7C19 15.4 12 20 12 20z"/></svg>
+          Favoritos
+        </button>
+        <button class="nav-item" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8.5V6.5h16v2a2.5 2.5 0 0 0 0 5v2H4v-2a2.5 2.5 0 0 0 0-5z"/><path d="M13 7v10" stroke-dasharray="2 3"/></svg>
+          Cupons
+        </button>
+        <button class="nav-item" type="button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="9" r="3.4"/><path d="M5 20c1.4-3.2 4-4.6 7-4.6s5.6 1.4 7 4.6"/></svg>
+          Perfil
+        </button>
+      </nav>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const POSTS = [
+        {
+          type: "post",
+          tag: "Coleção",
+          blue: true,
+          initials: "NK",
+          store: "Nike Store",
+          mall: "Shopping Iguatemi",
+          time: "há 12 min",
+          title: "Nova coleção Air Max chegou.",
+          text: "Silhuetas atualizadas, amortecimento visível e novas cores exclusivas na loja física.",
+          cta: "Ver coleção",
+          img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=960&q=70",
+          alt: "Tênis esportivo branco em fundo claro",
+        },
+        {
+          type: "post",
+          tag: "Evento",
+          initials: "OB",
+          store: "Outback",
+          mall: "Shopping Balneário",
+          time: "há 40 min",
+          title: "Happy Hour hoje, 17h às 20h.",
+          text: "Entradas selecionadas com preço especial e música ao vivo no salão principal.",
+          cta: "Reservar",
+          img: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=960&q=70",
+          alt: "Mesa de restaurante com pratos e bebidas",
+        },
+        { type: "ai" },
+        {
+          type: "post",
+          tag: "Oferta",
+          blue: true,
+          initials: "LC",
+          store: "Livraria Catarinense",
+          mall: "Shopping Neumarkt",
+          time: "há 2 h",
+          title: "Semana do Livro: até 40% OFF.",
+          text: "Best-sellers, literatura nacional e infantis com desconto até domingo.",
+          cta: "Ver ofertas",
+          img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=960&q=70",
+          alt: "Prateleiras de livros em uma livraria",
+        },
+        {
+          type: "post",
+          tag: "Lançamento",
+          initials: "AP",
+          store: "Apple Premium Reseller",
+          mall: "Shopping Iguatemi",
+          time: "há 3 h",
+          title: "Conheça o novo MacBook.",
+          text: "Demonstração ao vivo na loja e condições especiais de troca do seu aparelho atual.",
+          cta: "Saiba mais",
+          img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=960&q=70",
+          alt: "Notebook aberto sobre mesa de madeira",
+        },
+        {
+          type: "post",
+          tag: "Cupom",
+          blue: true,
+          initials: "BZ",
+          store: "Beleza Studio",
+          mall: "Shopping Neumarkt",
+          time: "há 5 h",
+          title: "Cupom de 25% em skincare.",
+          text: "Válido para a linha de hidratantes e séruns até o fim da semana.",
+          cta: "Resgatar cupom",
+          img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=960&q=70",
+          alt: "Frascos de cosméticos em fundo neutro",
+        },
+        {
+          type: "post",
+          tag: "Experiência",
+          initials: "CF",
+          store: "Café da Praça",
+          mall: "Shopping Balneário",
+          time: "há 8 h",
+          title: "Degustação de cafés especiais.",
+          text: "Três métodos, um barista e grãos de microlotes brasileiros. Vagas limitadas.",
+          cta: "Participar",
+          img: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=960&q=70",
+          alt: "Barista preparando café em método coado",
+        },
+        {
+          type: "post",
+          tag: "Novo produto",
+          initials: "ZR",
+          store: "Zara",
+          mall: "Shopping Iguatemi",
+          time: "ontem",
+          title: "Alfaiataria leve para o verão.",
+          text: "Tecidos respiráveis em tons neutros, já disponíveis em todos os tamanhos.",
+          cta: "Abrir loja",
+          img: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=960&q=70",
+          alt: "Araras com roupas em loja de moda",
+        },
+      ];
+
+      const SUGGESTIONS = [
+        { initials: "DC", name: "Decathlon", mall: "Shopping Iguatemi" },
+        { initials: "GR", name: "Granado", mall: "Shopping Neumarkt" },
+        { initials: "SM", name: "Sushi Mar", mall: "Shopping Balneário" },
+      ];
+
+      const ICONS = {
+        like: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.3A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.7C19 15.4 12 20 12 20z"/></svg>',
+        save: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg>',
+        share: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m8 8 4-4 4 4"/><path d="M5 14v6h14v-6"/></svg>',
+        open: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg>',
+      };
+
+      const feed = document.getElementById("feed");
+      const toast = document.getElementById("toast");
+      let toastTimer;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1700);
+      }
+
+      function postCard(post) {
+        const article = document.createElement("article");
+        article.className = "card";
+        article.setAttribute("aria-labelledby", `t-${Math.random().toString(36).slice(2, 8)}`);
+        const titleId = article.getAttribute("aria-labelledby");
+
+        article.innerHTML = `
+          <div class="card-head">
+            <span class="store-logo" aria-hidden="true">${post.initials}</span>
+            <div class="store-meta">
+              <div class="store-name">${post.store}</div>
+              <div class="store-sub">${post.mall} · ${post.time}</div>
+            </div>
+            <span class="tag${post.blue ? " is-blue" : ""}">${post.tag}</span>
+          </div>
+          <img class="cover" src="${post.img}" alt="${post.alt}" loading="lazy" decoding="async" width="960" height="540" />
+          <div class="card-body">
+            <h2 class="card-title" id="${titleId}">${post.title}</h2>
+            <p class="card-text">${post.text}</p>
+            <button class="cta" type="button" data-cta>${post.cta}</button>
+          </div>
+          <div class="card-actions">
+            <button class="action" type="button" data-like aria-pressed="false" aria-label="Curtir publicação de ${post.store}">${ICONS.like}<span>Curtir</span></button>
+            <button class="action" type="button" data-save aria-pressed="false" aria-label="Salvar publicação de ${post.store}">${ICONS.save}<span>Salvar</span></button>
+            <button class="action" type="button" data-share aria-label="Compartilhar publicação de ${post.store}">${ICONS.share}<span>Compartilhar</span></button>
+            <button class="action is-open" type="button" data-open aria-label="Abrir publicação de ${post.store}">${ICONS.open}<span>Abrir</span></button>
+          </div>
+        `;
+
+        const like = article.querySelector("[data-like]");
+        const save = article.querySelector("[data-save]");
+
+        like.addEventListener("click", () => {
+          const on = like.getAttribute("aria-pressed") === "true";
+          like.setAttribute("aria-pressed", String(!on));
+          like.querySelector("svg").setAttribute("fill", on ? "none" : "currentColor");
+          like.querySelector("svg").classList.add("pop");
+          setTimeout(() => like.querySelector("svg").classList.remove("pop"), 340);
+          showToast(on ? "Curtida removida" : "Publicação curtida");
+        });
+
+        save.addEventListener("click", () => {
+          const on = save.getAttribute("aria-pressed") === "true";
+          save.setAttribute("aria-pressed", String(!on));
+          save.querySelector("svg").setAttribute("fill", on ? "none" : "currentColor");
+          save.querySelector("span").textContent = on ? "Salvar" : "Salvo";
+          showToast(on ? "Removido dos salvos" : "Salvo para depois");
+        });
+
+        article.querySelector("[data-share]").addEventListener("click", () => {
+          showToast("Link copiado para compartilhar");
+        });
+        article.querySelector("[data-open]").addEventListener("click", () => {
+          showToast(`Abrindo publicação de ${post.store}`);
+        });
+        article.querySelector("[data-cta]").addEventListener("click", () => {
+          showToast(`${post.cta} — ${post.store}`);
+        });
+
+        return article;
+      }
+
+      function aiCard() {
+        const section = document.createElement("section");
+        section.className = "ai-card";
+        section.setAttribute("aria-label", "Recomendado para você");
+        section.innerHTML = `
+          <h2 class="ai-title">✨ Recomendado para você</h2>
+          <p class="ai-text">Baseado nas suas lojas favoritas e interesses, acreditamos que você pode gostar destas novidades.</p>
+          <ul class="suggestions">
+            ${SUGGESTIONS.map(
+              (s) => `
+              <li class="suggestion">
+                <span class="store-logo" aria-hidden="true">${s.initials}</span>
+                <span class="store-meta">
+                  <span class="store-name">${s.name}</span>
+                  <span class="store-sub">${s.mall}</span>
+                </span>
+                <button class="follow" type="button" aria-pressed="false" aria-label="Seguir ${s.name}">Seguir</button>
+              </li>`,
+            ).join("")}
+          </ul>
+        `;
+
+        section.querySelectorAll(".follow").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const on = btn.getAttribute("aria-pressed") === "true";
+            btn.setAttribute("aria-pressed", String(!on));
+            btn.textContent = on ? "Seguir" : "Seguindo";
+            showToast(on ? "Loja removida" : "Loja adicionada às favoritas");
+          });
+        });
+
+        return section;
+      }
+
+      POSTS.forEach((item) => {
+        feed.appendChild(item.type === "ai" ? aiCard() : postCard(item));
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.transition =
+                "opacity .45s ease, transform .45s ease, box-shadow .22s ease";
+              entry.target.classList.add("is-in");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+      );
+
+      feed.querySelectorAll(".card, .ai-card").forEach((el, i) => {
+        el.style.transitionDelay = `${Math.min(i, 5) * 45}ms`;
+        observer.observe(el);
+      });
+
+      document.querySelectorAll(".chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-selected", "false"));
+          chip.setAttribute("aria-selected", "true");
+          chip.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          showToast(`Filtrando por ${chip.textContent}`);
+        });
+      });
+
+      document.querySelectorAll(".nav-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          document.querySelectorAll(".nav-item").forEach((n) => n.removeAttribute("aria-current"));
+          item.setAttribute("aria-current", "page");
+        });
+      });
+    </script>
+  </body>
+</html>

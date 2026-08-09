@@ -1,0 +1,128 @@
+.onboarding-step2 {
+  min-height: 100vh;
+  background: #f7f7f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  font-family: 'Bebas Neue', sans-serif;
+  color: #0b0e14;
+  position: relative;
+}
+
+.step2-content {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.step2-label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  color: #888888;
+}
+
+.step2-content h1 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+
+.step2-content p {
+  max-width: 360px;
+  margin: 20px auto 34px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #666666;
+}
+
+.step2-interests {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.step2-interest {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 22px;
+  color: #555555;
+  cursor: pointer;
+}
+
+
+.step2-button {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 7px;
+  background: #222222;
+  color: #ffffff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.step2-dots {
+  position: absolute;
+  bottom: 28px;
+  display: flex;
+  gap: 8px;
+}
+
+.step2-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d5d5d5;
+}
+
+.step2-dots span.active {
+  width: 18px;
+  border-radius: 4px;
+  background: #3654ff;
+}
+
+@media (max-width: 400px) {
+  .onboarding-step2 {
+    padding: 32px 20px;
+  }
+
+  .step2-content h1 {
+    font-size: 32px;
+  }
+}
+
+.step2-interest.selected {
+  background: #3654ff !important;
+  border: 1px solid #3654ff !important;
+  color: #ffffff !important;
+}
+
+.step2-back {
+  position: absolute;
+  top: 28px;
+  left: 24px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: #555555;
+  cursor: pointer;
+}
