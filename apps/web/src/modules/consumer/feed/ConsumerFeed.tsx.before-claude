@@ -1,0 +1,255 @@
+import './ConsumerFeed.css'
+
+type ConsumerFeedProps = {
+  shoppingId: string | null
+}
+
+export function ConsumerFeed({
+  shoppingId,
+}: ConsumerFeedProps) {
+  console.log('Shopping selecionado:', shoppingId)
+
+  return (
+    <main className="consumer-feed">
+
+      <header className="consumer-feed-header">
+        <div>
+          <span className="consumer-feed-brand">
+            gruplace
+          </span>
+
+          <p className="consumer-feed-shopping">
+            Shopping Gruplace Demo
+          </p>
+        </div>
+
+        <div className="consumer-feed-header-actions">
+
+          <button
+            className="consumer-feed-currency"
+            type="button"
+            aria-label="Conversor de moedas"
+          >
+            💱 BRL
+          </button>
+
+          <button
+            className="consumer-feed-profile"
+            type="button"
+            aria-label="Perfil"
+          >
+            M
+          </button>
+
+        </div>
+      </header>
+
+      <section className="consumer-feed-intro">
+
+        <span className="consumer-feed-label">
+          PARA VOCÊ
+        </span>
+
+        <h1>
+          Descubra o que está acontecendo.
+        </h1>
+
+        <p>
+          Lojas, novidades, ofertas e experiências
+          escolhidas para você.
+        </p>
+
+      </section>
+
+      <nav
+        className="consumer-feed-filters"
+        aria-label="Filtros do feed"
+      >
+
+        <button
+          className="active"
+          type="button"
+        >
+          Todos
+        </button>
+
+        <button type="button">
+          Ofertas
+        </button>
+
+        <button type="button">
+          Novidades
+        </button>
+
+        <button type="button">
+          Eventos
+        </button>
+
+        <button type="button">
+          Cupons
+        </button>
+
+        <button type="button">
+          Lançamentos
+        </button>
+
+      </nav>
+
+      <section className="consumer-feed-tools">
+
+        <button
+          className="consumer-feed-tool"
+          type="button"
+        >
+
+          <span className="consumer-feed-tool-icon">
+            MAPA
+          </span>
+
+          <span className="consumer-feed-tool-content">
+            <strong>
+              Explorar o shopping
+            </strong>
+
+            <small>
+              Encontre lojas, restaurantes e serviços.
+            </small>
+          </span>
+
+          <span className="consumer-feed-tool-arrow">
+            →
+          </span>
+
+        </button>
+
+      </section>
+
+      <section className="consumer-feed-map">
+
+        <div className="consumer-feed-map-header">
+
+          <div>
+
+            <span className="consumer-feed-label">
+              MAPA DO SHOPPING
+            </span>
+
+            <h2>
+              Explore o shopping.
+            </h2>
+
+            <p>
+              Encontre lojas, restaurantes, serviços
+              e outros pontos de interesse.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            className="consumer-feed-map-button"
+          >
+            ABRIR MAPA
+          </button>
+
+        </div>
+
+        <div className="consumer-feed-map-preview">
+
+          <div className="consumer-feed-map-floor">
+            PISO 1
+          </div>
+
+          <img
+            alt="Mapa do Piso 1 do shopping"
+            className="consumer-feed-map-svg"
+            src="/maps/mapa-piso-1-planta.svg"
+          />
+
+        </div>
+
+      </section>
+
+      <section className="consumer-feed-content">
+
+        <article className="consumer-feed-post">
+
+          <div className="consumer-feed-post-top">
+
+            
+<div className="consumer-feed-post-store-info">
+
+  <div className="consumer-feed-post-store-brand">
+    <span className="consumer-feed-post-store-logo">
+      LG
+    </span>
+
+    <div>
+      <span className="consumer-feed-post-category">
+        NOVIDADE
+      </span>
+
+      <span className="consumer-feed-post-store">
+        Loja Gruplace
+      </span>
+
+      <span className="consumer-feed-post-shopping">
+        Shopping Gruplace Demo · há 5 min
+      </span>
+    </div>
+  </div>
+
+</div>
+
+
+            <button
+              className="consumer-feed-post-favorite"
+              type="button"
+              aria-label="Favoritar loja"
+            >
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+              </svg>
+
+            </button>
+
+          </div>
+
+          <div className="consumer-feed-post-image">
+            <span>
+              IMAGEM
+            </span>
+          </div>
+
+          <div className="consumer-feed-post-content">
+
+            <h2>
+              Novidades que chegaram
+              ao seu shopping.
+            </h2>
+
+            <p>
+              Descubra novos produtos, experiências
+              e novidades das lojas que você acompanha.
+            </p>
+
+            <button
+              className="consumer-feed-post-action"
+              type="button"
+            >
+              VER NOVIDADE
+            </button>
+
+          </div>
+
+        </article>
+
+      </section>
+
+    </main>
+  )
+}
