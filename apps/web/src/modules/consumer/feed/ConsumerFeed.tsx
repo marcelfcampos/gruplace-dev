@@ -13,6 +13,8 @@ export function ConsumerFeed({
   const [isLiked, setIsLiked] = useState(false)
   const [isFollowing, setIsFollowing] = useState(false)
   const [isPostDetailOpen, setIsPostDetailOpen] = useState(false)
+  const [isOfferRevealed, setIsOfferRevealed] = useState(false)
+  const [isCouponCopied, setIsCouponCopied] = useState(false)
 
   return (
     <main className="consumer-feed">
@@ -237,13 +239,17 @@ export function ConsumerFeed({
               </div>
 
               <button
-                className="post-detail-cta"
+                className={`post-detail-cta${isOfferRevealed ? ' is-revealed' : ''}`}
                 type="button"
+                aria-label={isOfferRevealed ? "Oferta ativada" : "Ver oferta"}
+                aria-pressed={isOfferRevealed}
+                onClick={() => setIsOfferRevealed((current) => !current)}
               >
-                Ver oferta
+                {isOfferRevealed ? 'Oferta ativada' : 'Ver oferta'}
               </button>
 
-              <div className="post-detail-reward">
+              {isOfferRevealed && (
+                <div className="post-detail-reward">
 
                 <div className="post-detail-reward-label">
                   🎉 Benefício desbloqueado
@@ -268,11 +274,24 @@ export function ConsumerFeed({
                 <button
                   type="button"
                   className="post-detail-copy"
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText('BEMVINDO10')
+                      setIsCouponCopied(true)
+
+                      window.setTimeout(() => {
+                        setIsCouponCopied(false)
+                      }, 2500)
+                    } catch {
+                      setIsCouponCopied(false)
+                    }
+                  }}
                 >
-                  Copiar código
+                  {isCouponCopied ? 'Código copiado' : 'Copiar código'}
                 </button>
 
-              </div>
+                </div>
+              )}
 
             </div>
 
