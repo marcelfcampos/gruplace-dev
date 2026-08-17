@@ -1017,6 +1017,387 @@
   padding: 16px 16px 4px;
 }
 
+/* =====================================================
+   PROMOÇÃO — CONTEÚDO DO CARD
+===================================================== */
+
+/* =====================================================
+   CARD PRINCIPAL — ESTRUTURA VISUAL
+===================================================== */
+
+/* =====================================================
+   CARD PRINCIPAL — CABEÇALHO
+===================================================== */
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 16px;
+}
+
+.post-store {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+
+.post-logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e7e5dd;
+  border-radius: 11px;
+  background: #f5f4ef;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.post-store-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.post-store-name {
+  overflow: hidden;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 3px;
+  overflow: hidden;
+  color: #8a8880;
+  font-size: 12px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.post-meta-dot {
+  flex: 0 0 auto;
+  color: #b0aea6;
+}
+
+.post-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #777773;
+  cursor: pointer;
+}
+
+.post-menu:hover {
+  background: #f5f4ef;
+  color: #111111;
+}
+
+.post-menu .icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 700px) {
+  .post-header {
+    padding: 13px 14px;
+  }
+
+  .post-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .post-store-name {
+    font-size: 14px;
+  }
+
+  .post-meta {
+    font-size: 11.5px;
+  }
+}
+
+.post-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #deddd8;
+}
+
+.post-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.42),
+    rgba(0, 0, 0, 0.04) 55%,
+    rgba(0, 0, 0, 0)
+  );
+  pointer-events: none;
+}
+
+.post-tag {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.78);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.post-content {
+  padding: 18px 16px 16px;
+}
+
+.post-title {
+  margin: 0;
+  color: #111111;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.post-description {
+  margin: 7px 0 0;
+  color: #4a4a4a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .post-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .post-content {
+    padding: 16px;
+  }
+
+  .post-title {
+    font-size: 19px;
+  }
+}
+
+.post-offer-label {
+  margin-bottom: 7px;
+  color: #0a66ff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.post-offer-context {
+  display: inline-flex;
+  align-items: center;
+  color: #777773;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.post-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.post-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.post-cta:hover {
+  background: #292929;
+}
+
+.post-cta:active {
+  transform: scale(0.98);
+}
+
+.post-cta .icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 700px) {
+  .post-cta-row {
+    align-items: flex-start;
+  }
+
+  .post-offer-context {
+    max-width: 170px;
+  }
+}
+
+/* =====================================================
+   CARD PRINCIPAL — BENEFÍCIO
+===================================================== */
+
+.reward {
+  padding: 0 16px 16px;
+}
+
+.reward-inner {
+  width: 100%;
+}
+
+.reward-box {
+  padding: 16px;
+  border: 1px solid #e7e5dd;
+  border-radius: 14px;
+  background: #f5f4ef;
+  box-sizing: border-box;
+}
+
+.reward-label {
+  color: #777773;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.reward-title {
+  margin-top: 7px;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.discount {
+  margin-top: 12px;
+  color: #0a66ff;
+  font-size: 24px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.coupon {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: 1px dashed #b9b7ae;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.reward-description {
+  margin-top: 10px;
+  color: #777773;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.reward-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.reward-actions .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.reward-actions .button.primary {
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+}
+
+.reward-actions .button.secondary {
+  border: 1px solid #d8d6ce;
+  background: #ffffff;
+  color: #111111;
+}
+
+@media (max-width: 700px) {
+  .reward {
+    padding: 0 16px 16px;
+  }
+
+  .reward-actions {
+    flex-wrap: wrap;
+  }
+
+  .reward-actions .button {
+    flex: 1 1 auto;
+  }
+}
+
 .content__title {
   margin: 0;
   font-size: 16.5px;
@@ -1046,6 +1427,68 @@
   font-weight: 600;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+/* =====================================================
+   CARD PRINCIPAL — AÇÕES
+===================================================== */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 10px 12px;
+  border-top: 1px solid #e7e5dd;
+}
+
+.actions .action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #4a4a4a;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.actions .action:hover {
+  background: #f5f4ef;
+  color: #111111;
+}
+
+.action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.action-icon svg {
+  display: block;
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 700px) {
+  .actions {
+    gap: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .actions .action {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
 
 .card__actions {

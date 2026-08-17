@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './ConsumerFeed.css'
 
 type ConsumerFeedProps = {
@@ -8,6 +9,10 @@ export function ConsumerFeed({
   shoppingId,
 }: ConsumerFeedProps) {
   console.log('Shopping selecionado:', shoppingId)
+
+  const [isLiked, setIsLiked] = useState(false)
+  const [isFollowing, setIsFollowing] = useState(false)
+  const [isPostDetailOpen, setIsPostDetailOpen] = useState(false)
 
   return (
     <main className="consumer-feed">
@@ -170,168 +175,423 @@ export function ConsumerFeed({
 
       </section>
 
-      
-
-
-
-
-
-
-
       <section className="consumer-feed-content">
 
-        <article className="card" id="postCard">
+        {isPostDetailOpen ? (
+          <div className="post-detail">
 
-          <div className="card__header">
-            <span className="avatar" aria-hidden="true">
-              LG
-            </span>
+            <header className="post-detail-header">
 
-            <div className="header__info">
-              <div className="header__name">
+              <button
+                className="post-detail-back"
+                type="button"
+                onClick={() => setIsPostDetailOpen(false)}
+              >
+                ← Voltar
+              </button>
+
+              <span className="post-detail-label">
+                PUBLICAÇÃO
+              </span>
+
+            </header>
+
+            <div className="post-detail-image">
+
+              <img
+                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90"
+                alt="Nova coleção da Loja Gruplace"
+              />
+
+            </div>
+
+            <div className="post-detail-content">
+
+              <div className="post-detail-store">
                 Loja Gruplace
               </div>
 
-              <div className="header__meta">
-                Shopping Gruplace Demo · há 5 min
+              <div className="post-detail-meta">
+                Shopping Gruplace · há 5 min
               </div>
+
+              <div className="post-detail-tag">
+                NOVA COLEÇÃO
+              </div>
+
+              <div className="post-detail-offer-label">
+                OFERTA ESPECIAL
+              </div>
+
+              <h1 className="post-detail-title">
+                10% OFF na coleção atual
+              </h1>
+
+              <p className="post-detail-description">
+                Peças selecionadas da nova coleção para você aproveitar
+                durante sua visita.
+              </p>
+
+              <div className="post-detail-context">
+                Exclusivo para seguidores
+              </div>
+
+              <button
+                className="post-detail-cta"
+                type="button"
+              >
+                Ver oferta
+              </button>
+
+              <div className="post-detail-reward">
+
+                <div className="post-detail-reward-label">
+                  🎉 Benefício desbloqueado
+                </div>
+
+                <h2>
+                  Você ganhou um cupom de boas-vindas!
+                </h2>
+
+                <div className="post-detail-discount">
+                  10% OFF
+                </div>
+
+                <div className="post-detail-coupon">
+                  BEMVINDO10
+                </div>
+
+                <p>
+                  Valide o código no caixa da loja no shopping.
+                </p>
+
+                <button
+                  type="button"
+                  className="post-detail-copy"
+                >
+                  Copiar código
+                </button>
+
+              </div>
+
             </div>
 
-            <span className="badge">
-              Oferta
-            </span>
+          </div>
+        ) : (
+          <article
+          className="card"
+          id="postCard"
+        >
+
+          <header className="post-header">
+
+            <div className="post-store">
+
+              <div
+                className="post-logo"
+                aria-label="Logo Loja Gruplace"
+              >
+                LG
+              </div>
+
+              <div className="post-store-info">
+
+                <div className="post-store-name">
+                  Loja Gruplace
+                </div>
+
+                <div className="post-meta">
+
+                  <span>
+                    Shopping Gruplace
+                  </span>
+
+                  <span className="post-meta-dot">
+                    ·
+                  </span>
+
+                  <span>
+                    há 5 min
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <button
+              className="post-menu"
+              type="button"
+              aria-label="Mais opções"
+            >
+              <svg
+                className="icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="5"
+                  cy="12"
+                  r="1.5"
+                  fill="currentColor"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="1.5"
+                  fill="currentColor"
+                />
+                <circle
+                  cx="19"
+                  cy="12"
+                  r="1.5"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+
+          </header>
+
+          <div className="post-image">
+
+            <img
+              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90"
+              alt="Nova coleção da Loja Gruplace"
+            />
+
+            <div className="post-image-overlay" />
+
+            <div className="post-tag">
+              Nova coleção
+            </div>
+
           </div>
 
-          <div className="card__image">
-            <span className="image__label">
-              imagem do produto
-            </span>
-          </div>
+          <div className="post-content">
 
-          <div className="card__content">
+            <div className="post-offer-label">
+              OFERTA ESPECIAL
+            </div>
 
-            <h2 className="content__title">
-              Até 40% OFF em produtos selecionados.
+            <h2 className="post-title">
+              10% OFF na coleção atual
             </h2>
 
-            <p className="content__desc">
-              Encontre novidades, modelos exclusivos e ofertas especiais
-              na Loja Gruplace. Aproveite enquanto durar.
+            <p className="post-description">
+              Peças selecionadas da nova coleção para você aproveitar
+              durante sua visita.
             </p>
 
-            <button
-              className="cta"
-              type="button"
-            >
-              Ver ofertas
-            </button>
+            <div className="post-cta-row">
+
+              <div className="post-offer-context">
+                Exclusivo para seguidores
+              </div>
+
+              <button
+                className="post-cta"
+                type="button"
+              >
+                <span>
+                  Ver oferta
+                </span>
+
+                <svg
+                  className="icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M7 17L17 7"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+
+                  <path
+                    d="M9 7H17V15"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+
+            </div>
 
           </div>
 
-          <div className="card__actions">
+          <div className="reward">
 
-            <button
-              className="action"
-              type="button"
-              aria-label="Seguir Loja Gruplace"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M3 9l1.5-5h15L21 9" />
-                <path d="M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9" />
-                <path d="M9 20v-6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6" />
-                <path d="M3 9h18" />
-              </svg>
+            <div className="reward-inner">
 
-              <span>
-                Seguir
-              </span>
-            </button>
+              <div className="reward-box">
 
-            <button
-              className="action"
-              type="button"
-              aria-label="Curtir publicação"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 
-0-7.8z" />
-              </svg>
+                <div className="reward-label">
+                  🎉 Benefício desbloqueado
+                </div>
 
-              <span>
-                Curtir
-              </span>
-            </button>
+                <div className="reward-title">
+                  Você ganhou um cupom de boas-vindas!
+                </div>
 
-            <button
-              className="action"
-              type="button"
-              aria-label="Compartilhar publicação"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                <path d="M16 6l-4-4-4 4" />
-                <path d="M12 2v13" />
-              </svg>
+                <div className="discount">
+                  10% OFF
+                </div>
 
-              <span>
-                Compartilhar
-              </span>
-            </button>
+                <div className="coupon">
+                  BEMVINDO10
+                </div>
 
-            <button
-              className="action is-open"
-              type="button"
-              aria-label="Abrir publicação"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M7 17L17 7" />
-                <path d="M7 7h10v10" />
-              </svg>
+                <div className="reward-description">
+                  Valide o código no caixa da loja
+                  no shopping.
+                </div>
 
-              <span>
-                Abrir
-              </span>
-            </button>
+                <div className="reward-actions">
+
+                  <button
+                    className="button primary"
+                    type="button"
+                  >
+                    Copiar código
+                  </button>
+
+                  <button
+                    className="button secondary"
+                    type="button"
+                  >
+                    Ver lançamentos
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
-        </article>
+          <footer className="actions">
+
+            <button
+              className={`action${isLiked ? ' is-liked' : ''}`}
+              type="button"
+              aria-label={isLiked ? "Descurtir publicação" : "Curtir publicação"}
+              aria-pressed={isLiked}
+              onClick={() => setIsLiked((current) => !current)}
+            >
+
+              <span className="action-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M20.8 8.8C20.8 13.2 12 19 12 19S3.2 13.2 3.2 8.8C3.2 6.1 5.1 4.2 7.5 4.2C9.2 4.2 10.8 5.1 12 6.6C13.2 5.1 14.8 4.2 16.5 4.2C18.9 4.2 20.8 6.1 20.8 8.8Z"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+
+              </span>
+
+              <span>
+                {isLiked ? 'Curtido' : 'Curtir'}
+              </span>
+
+            </button>
+
+            <button
+              className={`action${isFollowing ? ' is-following' : ''}`}
+              type="button"
+              aria-label={isFollowing ? "Deixar de seguir loja" : "Seguir loja"}
+              aria-pressed={isFollowing}
+              onClick={() => setIsFollowing((current) => !current)}
+            >
+
+              <span className="action-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12 5V19"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+
+                  <path
+                    d="M5 12H19"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+                </svg>
+
+              </span>
+
+              <span>
+                {isFollowing ? 'Seguindo' : 'Seguir'}
+              </span>
+
+            </button>
+
+            <button
+              className={`action${isPostDetailOpen ? ' is-open' : ''}`}
+              type="button"
+              aria-label={isPostDetailOpen ? "Fechar publicação" : "Abrir publicação"}
+              aria-pressed={isPostDetailOpen}
+              onClick={() => setIsPostDetailOpen((current) => !current)}
+            >
+
+              <span className="action-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M7 17L17 7"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                  />
+
+                  <path
+                    d="M9 7H17V15"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+
+              </span>
+
+              <span>
+                {isPostDetailOpen ? 'Aberto' : 'Abrir'}
+              </span>
+
+            </button>
+
+          </footer>
+
+          </article>
+        )}
 
       </section>
-
-
 
     </main>
   )
