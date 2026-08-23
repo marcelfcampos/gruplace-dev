@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { supabase } from '../../../lib/supabase'
+
 import './ConsumerFeed.css'
 
 type ConsumerFeedProps = {
@@ -10,46 +13,75 @@ export function ConsumerFeed({
 }: ConsumerFeedProps) {
   console.log('Shopping selecionado:', shoppingId)
 
-  const [isLiked, setIsLiked] = useState(false)
-  const [isFollowing, setIsFollowing] = useState(false)
-  const [isPostDetailOpen, setIsPostDetailOpen] = useState(false)
-  const [isOfferRevealed, setIsOfferRevealed] = useState(false)
-  const [isCouponCopied, setIsCouponCopied] = useState(false)
+const [isLiked, setIsLiked] = useState(false)
+const [isFollowing, setIsFollowing] = useState(false)
+const [isPostDetailOpen, setIsPostDetailOpen] = useState(false)
+const [isOfferRevealed, setIsOfferRevealed] = useState(false)
+const [isCouponCopied, setIsCouponCopied] = useState(false)
+const [shoppingName, setShoppingName] = useState('')
 
-  return (
+useEffect(() => {
+  async function loadShopping() {
+    if (!shoppingId) {
+      return
+    }
+
+    const { data, error } = await supabase
+      .from('shopping_centers')
+      .select('name')
+      .eq('id', shoppingId)
+      .eq('is_active', true)
+      .single()
+
+    if (error) {
+      console.error('Erro ao carregar shopping:', error)
+      return
+    }
+
+    setShoppingName(data.name)
+  }
+
+  void loadShopping()
+}, [shoppingId])
+
+return (
+
+
     <main className="consumer-feed">
 
-      <header className="consumer-feed-header">
-        <div>
-          <span className="consumer-feed-brand">
-            gruplace
-          </span>
+      
 
-          <p className="consumer-feed-shopping">
-            Shopping Gruplace Demo
-          </p>
-        </div>
 
-        <div className="consumer-feed-header-actions">
+<header className="consumer-feed-header">
+  <div>
+    <span className="consumer-feed-brand">
+      gruplace
+    </span>
 
-          <button
-            className="consumer-feed-currency"
-            type="button"
-            aria-label="Conversor de moedas"
-          >
-            💱 BRL
-          </button>
+    <p className="consumer-feed-shopping">
+      {shoppingName || 'Carregando shopping...'}
+    </p>
+  </div>
 
-          <button
-            className="consumer-feed-profile"
-            type="button"
-            aria-label="Perfil"
-          >
-            M
-          </button>
+  <div className="consumer-feed-header-actions">
+    <button
+      className="consumer-feed-currency"
+      type="button"
+      aria-label="Conversor de moedas"
+    >
+      💱 BRL
+    </button>
 
-        </div>
-      </header>
+    <button
+      className="consumer-feed-profile"
+      type="button"
+      aria-label="Perfil"
+    >
+      M
+    </button>
+  </div>
+</header>
+
 
       <section className="consumer-feed-intro">
 
