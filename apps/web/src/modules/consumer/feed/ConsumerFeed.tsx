@@ -19,6 +19,12 @@ const [isPostDetailOpen, setIsPostDetailOpen] = useState(false)
 const [isOfferRevealed, setIsOfferRevealed] = useState(false)
 const [isCouponCopied, setIsCouponCopied] = useState(false)
 const [shoppingName, setShoppingName] = useState('')
+const [storeName, setStoreName] = useState('')
+
+
+
+
+
 
 useEffect(() => {
   async function loadShopping() {
@@ -26,23 +32,40 @@ useEffect(() => {
       return
     }
 
-    const { data, error } = await supabase
+    const { data: shopping, error: shoppingError } = await supabase
       .from('shopping_centers')
       .select('name')
       .eq('id', shoppingId)
       .eq('is_active', true)
       .single()
 
-    if (error) {
-      console.error('Erro ao carregar shopping:', error)
+    if (shoppingError) {
+      console.error('Erro ao carregar shopping:', shoppingError)
       return
     }
 
-    setShoppingName(data.name)
+    setShoppingName(shopping.name)
+
+    const { data: store, error: storeError } = await supabase
+      .from('stores')
+      .select('trade_name')
+      .eq('shopping_center_id', shoppingId)
+      .eq('is_active', true)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+
+    if (storeError) {
+      console.error('Erro ao carregar loja:', storeError)
+      return
+    }
+
+    setStoreName(store?.trade_name ?? '')
   }
 
   void loadShopping()
 }, [shoppingId])
+
 
 return (
 
@@ -348,7 +371,7 @@ return (
               <div className="post-store-info">
 
                 <div className="post-store-name">
-                  Loja Gruplace
+                   {storeName || 'Carregando loja...'}
                 </div>
 
                 <div className="post-meta">
