@@ -706,7 +706,6 @@
   letter-spacing: 0.8px;
   cursor: pointer;
 }
-
 .consumer-feed-map-preview {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -907,7 +906,7 @@
 .consumer-feed-map-svg {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
   border-radius: 16px;
 }
@@ -924,10 +923,9 @@
   margin: 0 auto;
   background: #ffffff;
   border: 1px solid #e7e5dd;
-  border-radius: 16px;
+  border-radius: 22px;
   box-shadow:
-    0 1px 2px rgba(17, 17, 17, 0.04),
-    0 8px 24px rgba(17, 17, 17, 0.04);
+    0 8px 30px rgba(0, 0, 0, 0.045);
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -1030,47 +1028,46 @@
 ===================================================== */
 
 .post-header {
+  min-height: 76px;
   display: flex;
   align-items: center;
   gap: 11px;
-  padding: 14px 16px;
+  padding: 15px 18px;
 }
-
 .post-store {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   min-width: 0;
   flex: 1;
 }
 
 .post-logo {
-  width: 40px;
-  height: 40px;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #e7e5dd;
-  border-radius: 11px;
-  background: #f5f4ef;
-  color: #111111;
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  background: #111111;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.35px;
 }
 
 .post-store-info {
   min-width: 0;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-store-name {
   overflow: hidden;
-  color: #111111;
-  font-size: 15px;
+  color: #171717;
+  font-size: 14px;
   font-weight: 650;
-  letter-spacing: -0.01em;
   line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1080,11 +1077,9 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  margin-top: 3px;
-  overflow: hidden;
-  color: #8a8880;
-  font-size: 12px;
-  line-height: 1.3;
+  margin-top: 5px;
+  color: #898984;
+  font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1569,9 +1564,6 @@
 
 
 
-.consumer-feed-map {
-  display: none;
-}
 
 /* =====================================================
    DETALHE DA PUBLICAÇÃO
